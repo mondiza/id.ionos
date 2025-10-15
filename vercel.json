@@ -1,12 +1,15 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "**/*.html",
-      "use": "@vercel/static"
+  "functions": {
+    "api/telegram.js": {
+      "runtime": "nodejs18.x"
     }
-  ],
+  },
   "routes": [
+    {
+      "src": "/api/telegram",
+      "dest": "/api/telegram.js",
+      "methods": ["POST"]
+    },
     {
       "src": "/(.*)",
       "dest": "/index.html"
